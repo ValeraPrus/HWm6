@@ -6,11 +6,11 @@ from pathlib import Path
 
 def main(path):
     
-    path_images = create_dir(f'{path}\\images')               #создание папок для файлов и архивов (если их нету)
-    path_documents = create_dir(f'{path}\\documents')
-    path_audio = create_dir(f'{path}\\audio')
-    path_video = create_dir(f'{path}\\video')
-    path_archives = create_dir(f'{path}\\archives')
+    path_images = create_dir(f'{path}/images')               #создание папок для файлов и архивов (если их нету)
+    path_documents = create_dir(f'{path}/documents')
+    path_audio = create_dir(f'{path}/audio')
+    path_video = create_dir(f'{path}/video')
+    path_archives = create_dir(f'{path}/archives')
     ignore_dir = [f'{path_images}', f'{path_documents}', f'{path_audio}', f'{path_video}', f'{path_archives}']
     
     for root, dirs, files in os.walk(path):                  #списоки всех папок и файлов 
