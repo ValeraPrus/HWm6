@@ -86,7 +86,6 @@ def main(path):
         os.rename(folders_from_list, path_for_new_name)
     
     if len(new_filtered_list_folders) >= 1:
-        print(len(new_filtered_list_folders))
         main(folder_path)
     else:  
         print(f'Unknown files: {os.listdir(path_unknown_files)}')
