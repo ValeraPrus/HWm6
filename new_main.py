@@ -104,12 +104,18 @@ def normalize(name):                                        #функция тр
     return new_name
 
 
-def create_dir(dir_path, name):                                   #функция создания папок
+def create_dir(dir_path, name):   
+                                                          #функция создания папок
     path_for_dir_1 = os.path.join(dir_path, name)
     path_for_dir_1 = Path(path_for_dir_1)
-    path_for_dir_1.mkdir()
-    my_path = str(path_for_dir_1)
-    return my_path
+    try:    
+        path_for_dir_1.mkdir()
+        my_path = str(path_for_dir_1)
+        return my_path
+    except:
+        print(f'{name} already created')    
+        my_path = str(path_for_dir_1)
+        return my_path
     
     
 
