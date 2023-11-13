@@ -5,6 +5,12 @@ from pathlib import Path
 
 
 def main(path):
+    list_folders = []
+    list_files = []
+    filtered_list_files = []
+    filtered_list_folders = []
+    lists_unk_files = []
+    remove_list = []
     
     path_images = create_dir(path, 'images')               #создание папок для файлов и архивов (если их нету)
     path_documents = create_dir(path, 'documents')
@@ -12,7 +18,7 @@ def main(path):
     path_video = create_dir(path, 'video')
     path_archives = create_dir(path, 'archives')
     path_unknown_files = create_dir(path, 'Unknown_files')
-    ignore_dir = [f'{path_images}', f'{path_documents}', f'{path_audio}', f'{path_video}', f'{path_archives}']
+    ignore_dir = [f'{path_images}', f'{path_documents}', f'{path_audio}', f'{path_video}', f'{path_archives}', f'{path_unknown_files}']
     
     for root, dirs, files in os.walk(path):                  #списоки всех папок и файлов 
         for folder in dirs:
@@ -52,10 +58,12 @@ def main(path):
             try:
                 new_path = os.path.join(path_archives, f'{trans_file_name}')
                 shutil.unpack_archive(files_form_list, new_path)
+                os.remove(files_form_list)
             except:
                 print(f"Can't unpack: {name_of_files}")
                 os.remove(files_form_list)
-        else:
+        
+        elif file_suf.upper() not in lists_suf:
             lists_unk_files.append(f'{name_of_files}')
             new_path = os.path.join(path_unknown_files, f'{name_of_files}')
             os.rename(files_form_list, new_path)
@@ -67,7 +75,6 @@ def main(path):
     for rem in remove_list:    
         os.rmdir(rem)
               
-    
     new_filtered_list_folders = [item for item in filtered_list_folders if item not in remove_list]
     
     for folders_from_list in new_filtered_list_folders:     #транслитерация папок
@@ -77,9 +84,13 @@ def main(path):
         path_components[-1] = new_name_of_fold
         path_for_new_name = os.sep.join(path_components)
         os.rename(folders_from_list, path_for_new_name)
-        
-    print(f'Unknown files: {lists_unk_files}')   
-        
+    
+    if len(new_filtered_list_folders) >= 1:
+        print(len(new_filtered_list_folders))
+        main(folder_path)
+    else:  
+        print(f'Unknown files: {os.listdir(path_unknown_files)}')
+    
 
 def normalize(name):                                        #функция транслитерации
     new_name = ""
@@ -115,28 +126,16 @@ def create_dir(dir_path, name):
         path_for_dir_1.mkdir()
         my_path = str(path_for_dir_1)
         return my_path
-    except:
-        print(f'{name} already created')    
+    except:   
         my_path = str(path_for_dir_1)
         return my_path
     
-    
-
-
-
 lists_img = ['.JPEG', '.PNG', '.JPG', '.SVG']
 lists_vid = ['.AVI', '.MP4', '.MOV', '.MKV']
 lists_doc = ['.DOC', '.DOCX', '.TXT', '.PDF', '.XLSX', '.PPTX']
 lists_mus = ['.MP3', '.OGG', '.WAV', '.AMR']
 lists_arch = ['.ZIP', '.GZ', '.TAR']
-list_folders = []
-list_files = []
-filtered_list_files = []
-filtered_list_folders = []
-lists_unk_files = []
-remove_list = []
-
-
+lists_suf = lists_img + lists_vid + lists_doc + lists_mus + lists_arch
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
