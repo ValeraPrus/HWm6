@@ -11,6 +11,7 @@ def main(path):
     path_audio = create_dir(path, 'audio')
     path_video = create_dir(path, 'video')
     path_archives = create_dir(path, 'archives')
+    path_unknown_files = create_dir(path, 'Unknown_files')
     ignore_dir = [f'{path_images}', f'{path_documents}', f'{path_audio}', f'{path_video}', f'{path_archives}']
     
     for root, dirs, files in os.walk(path):                  #списоки всех папок и файлов 
@@ -56,6 +57,8 @@ def main(path):
                 os.remove(files_form_list)
         else:
             lists_unk_files.append(f'{name_of_files}')
+            new_path = os.path.join(path_unknown_files, f'{name_of_files}')
+            os.rename(files_form_list, new_path)
     
     for folders_from_list in filtered_list_folders:         #удаление пустых папок 
         contents = os.listdir(folders_from_list)
@@ -140,5 +143,4 @@ if __name__ == "__main__":
         sys.exit(1)
     folder_path = sys.argv[1]
     main(folder_path)
-
 
