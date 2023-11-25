@@ -20,7 +20,7 @@ def main(path):
     path_unknown_files = create_dir(path, 'Unknown_files')
     ignore_dir = [f'{path_images}', f'{path_documents}', f'{path_audio}', f'{path_video}', f'{path_archives}', f'{path_unknown_files}']
     
-    for root, dirs, files in os.walk(path):                  #списоки всех папок и файлов 
+    for root, dirs, files in os.walk(path):                  #списки всех папок и файлов 
         for folder in dirs:
             folders_path = os.path.join(root, folder)
             list_folders.append(folders_path)
